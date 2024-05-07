@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-import CommunityComponentCSS from '../../style/Community.module.css';
+import CommunityComponentCSS from '../../style/Home.module.css';
 
 const SignUpForm: React.FC = () => {
   const router = useRouter();

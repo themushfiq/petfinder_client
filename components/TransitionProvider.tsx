@@ -21,7 +21,7 @@ const TransitionProvider = ({ children }: { children: React.ReactNode }) => {
             animate={{opacity: 0}}
             exit={{opacity: 0}}
             transition={{duration: 0.8, ease: "easeOut"}}
-            >{pathname === '/' ? 'Welcome to SMTP server' : pathname.substring(1)}</motion.div>
+            >{pathname === '/' ? 'Welcome to Mail Tym' : pathname.substring(1)}</motion.div>
 
             <motion.div className="h-screen w-screen fixed bg-white rounded-t-[100px] bottom-0 z-40" 
             initial={{height: "140vh"}} 

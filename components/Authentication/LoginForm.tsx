@@ -38,7 +38,7 @@ const LoginForm: React.FC = () => {
       <div className='mb-6'>
         <h2 className='text-2xl mb-2 lg:text-5xl md:text-3xl text-white flex justify-center'>Login Form</h2>
         <p style={{ color: 'white' }} className='flex justify-center mx-2 md:mx-3 lg:mx-4'>
-          Welcome to SMTP! Please log in to your account. We do appreciate your your decision to stay connected with us.</p>
+          Welcome to Mail-Tym! Please log in to your account. We do appreciate your your decision to stay connected with us.</p>
 
         <p style={{ color: 'white' }} className='flex justify-center mx-2 md:mx-3 lg:mx-4'>
           We are glad to have you back!</p>

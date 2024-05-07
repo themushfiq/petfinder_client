@@ -95,8 +95,8 @@ const Navbar = () => {
         {/* Logo */}
         <div className="md:hidden lg:flex xl:w-1/3 xl:justify-center">
             <Link href="/" className="text-sm bg-white rounded-md font-semibold flex items-center justify-between" >
-                <span className="flex justify-center w-full text-black">SMTP</span>
-                <span className="w-12 h-8 rounded bg-black text-white flex items-center justify-center border border-white">.server</span>
+                <span className="flex justify-center w-full text-black">Mail</span>
+                <span className="w-12 h-8 rounded bg-black text-white flex items-center justify-center border border-white">Tym</span>
             </Link>
         </div>
 
