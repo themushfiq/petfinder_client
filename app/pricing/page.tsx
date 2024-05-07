@@ -36,7 +36,7 @@ const PricingPage: React.FC = () => {
           </div>
         </div>
         <div className='border border-slate-200 text-white bg-slate-700 p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 rounded-lg gap-y-3'>
-          <p className='flex justify-center'>Premium</p>
+          <p className='flex justify-center text-red-400'>Premium</p>
           <h1 className='flex justify-center text-4xl my-4'>{billMonthly ? '$08' : '$10'} <span className='text-xl pt-3'>/month</span> </h1>
           <p className='flex justify-center mb-2'>Email service Benifit</p>
           <p className='flex justify-center mb-2'>Email service Benifit</p>
@@ -48,7 +48,7 @@ const PricingPage: React.FC = () => {
           </div>
         </div>
         <div className='border border-slate-200 text-white bg-slate-700 p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 rounded-lg gap-y-3'>
-          <p className='flex justify-center'>Professional</p>
+          <p className='flex justify-center text-yellow-700 font-bold'>Professional</p>
           <h1 className='flex justify-center text-4xl my-4'>{billMonthly ? '$20' : '$25'} <span className='text-xl pt-3'>/month</span></h1>
           <p className='flex justify-center mb-2'>Email service Benifit </p>
           <p className='flex justify-center mb-2'>Email service Benifit </p>
