@@ -1,0 +1,29 @@
+
+
+.testing{
+  color: red
+} 
+
+.orderExtraItemButton{
+  background: black;
+  color: white;
+  border-radius: 4px;
+  transition-duration: 300ms;
+}
+.orderExtraItemButton:hover{
+  background: white;
+  color: black;
+  border-radius: 4px;
+  transition-duration: 300ms;
+}
+.loginUserAvatar{
+  background: linear-gradient(to right, #3498db, #2c3e50);
+  padding: 5px;
+  border-radius: 50%;
+  border: 2px solid black;
+  width: 150px;
+  height: 150px;
+}
+
+
+
