@@ -9,6 +9,7 @@ const PricingPage: React.FC = () => {
   const router = useRouter();
   const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
   const [billMonthly, setBillMonthly] = useState(false);
+  console.log(billMonthly)
   return (
     <div>
       <h1 className='text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl flex justify-center'>Subscription</h1>
@@ -23,7 +24,7 @@ const PricingPage: React.FC = () => {
       {/* Changeable servce according to bill time duration... */}
       <div className='flex justify-around'>
         <div className='border border-slate-200 text-white bg-slate-700 p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 rounded-lg gap-y-3'>
-          <p className='flex justify-center'>Free</p>
+          <p className='flex justify-center text-yellow-500'>Free</p>
           <h1 className='flex justify-center text-4xl my-4'>$00</h1>
           <p className='flex justify-center mb-2'>Email service Benifit</p>
           <p className='flex justify-center mb-2'>Email service Benifit </p>
@@ -36,7 +37,7 @@ const PricingPage: React.FC = () => {
         </div>
         <div className='border border-slate-200 text-white bg-slate-700 p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 rounded-lg gap-y-3'>
           <p className='flex justify-center'>Premium</p>
-          <h1 className='flex justify-center text-4xl my-4'>$10 <span className='text-xl pt-3'>/month</span> </h1>
+          <h1 className='flex justify-center text-4xl my-4'>{billMonthly ? '$08' : '$10'} <span className='text-xl pt-3'>/month</span> </h1>
           <p className='flex justify-center mb-2'>Email service Benifit</p>
           <p className='flex justify-center mb-2'>Email service Benifit</p>
           <p className='flex justify-center mb-2'>Email service Benifit </p>
@@ -48,7 +49,7 @@ const PricingPage: React.FC = () => {
         </div>
         <div className='border border-slate-200 text-white bg-slate-700 p-2 sm:p-3 md:p-4 lg:p-5 xl:p-6 rounded-lg gap-y-3'>
           <p className='flex justify-center'>Professional</p>
-          <h1 className='flex justify-center text-4xl my-4'>$25 <span className='text-xl pt-3'>/month</span></h1>
+          <h1 className='flex justify-center text-4xl my-4'>{billMonthly ? '$20' : '$25'} <span className='text-xl pt-3'>/month</span></h1>
           <p className='flex justify-center mb-2'>Email service Benifit </p>
           <p className='flex justify-center mb-2'>Email service Benifit </p>
           <p className='flex justify-center mb-2'>Email service Benifit </p>
