@@ -1,97 +1,98 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react';
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { FaChevronLeft } from "react-icons/fa6";
+import homeLogo from '../../assets/Home_Logo.webp';
+import { handleLogin } from "@/server-calling/authentication";
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
-import { useRouter } from 'next/navigation';
 
-import CommunityComponentCSS from '../../style/Home.module.css';
-
-const LoginForm: React.FC = () => {
+const LoginForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams ? searchParams.get("redirect") : null;
 
-  const onFinish = (values: any) => {
-    values.preventDefault();
-    const userRegistrationData = {
-      "userName": "omukhasan123",
-      "name": {
-        "firstName": "Omuk",
-        "lastName": "Hasan"
-      },
-      "email": "omukhasan@gmail.com",
-      "PhoneNumber": "01978797987",
-      "password": "12345"
+  const [email, setEmail] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleLoginButton = async () => {
+    const formData = {
+      email: email,
+      password: password,
+    };
+    const result = await handleLogin(formData);
+
+    if (result?.message === 'Login successful') {
+      toast.success(result?.message, {
+        autoClose: 2000,
+      });
+      localStorage.setItem("user", JSON.stringify(result?.user));
+      router.push('/');
+    }else {
+      toast.error('Something went wrong!', {
+        autoClose: 2000,
+      });
     }
-    console.log(userRegistrationData, values);
   };
 
   return (
+    <section className="">
 
-    <div style={{
-      borderRadius: "5px",
-      backgroundImage: "linear-gradient(to right top, rgb(139, 92, 246), rgb(253, 186, 116))",
-      backgroundSize: "100%",
-      backgroundRepeat: "repeat",
-    }} className='mt-[100px]'>
+      {/* The new authentication system */}
 
-      <img className={`${CommunityComponentCSS.loginUserAvatar} block mx-auto mt-[-100px]`} src="https://i.ibb.co/vdbSRwB/8380015.png" alt="Image" />
+      <div className="flex items-center justify-center">
+        <div className="w-full max-w-lg bg-white border border-gray-300 rounded-sm px-12 py-6">
+          <button onClick={() => router?.back()} className="mb-4 flex items-center gap-x-1"><span><FaChevronLeft size={15} color={'black'}></FaChevronLeft></span> <span className="text-black font-semibold">Back</span></button>
 
-      <div className='mb-6'>
-        <h2 className='text-2xl mb-2 lg:text-5xl md:text-3xl text-white flex justify-center'>Login Form</h2>
-        <p style={{ color: 'white' }} className='flex justify-center mx-2 md:mx-3 lg:mx-4'>
-          Welcome to Mail-Tym! Please log in to your account. We do appreciate your your decision to stay connected with us.</p>
 
-        <p style={{ color: 'white' }} className='flex justify-center mx-2 md:mx-3 lg:mx-4'>
-          We are glad to have you back!</p>
-      </div>
-
-      <div className='p-1 sm:p-2 md:p-3 lg:p-4 xl:p-5'>
-        <div>
-          <h1 className='mb-1'>Email Address<span className='text-red-700 text-xl pt-1'> *</span></h1>
-          <div className={`flex items-center`}>
-            <input
-              style={{
-                borderRadius: "4px",
-                background: 'white',
-              }}
-              placeholder="Type your email address"
-              className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black"
-              type="email"
-              name=""
-              id=""
+          <Link className="flex justify-center" href={'/'}>
+            <Image
+              src={homeLogo}
+              alt="Home icon"
+              width={800}
+              height={150}
+              className="rounded-md w-48 h-16 hover:cursor-pointer"
             />
+          </Link>
+
+
+          <h2 className="text-2xl font-bold text-center text-blue-600 mb-1">Login</h2>
+          <p className="text-center text-black mb-6">to continue to <span className="font-bold">Pet Adoption</span></p>
+
+          <input onChange={(e) => setEmail(e?.target?.value)} type="email" placeholder="Email" className="w-full border border-gray-300 rounded py-2 px-3 mb-3 focus:outline-none" />
+
+          <div className="relative mb-6">
+            <input onChange={(e) => setPassword(e?.target?.value)} type={`${showPassword ? 'password' : 'text'}`} placeholder="Password" className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none" />
+            <button onClick={togglePasswordVisibility} className="absolute inset-y-0 right-3 text-blue-500 font-medium">{showPassword ? 'Show' : 'Hide'}</button>
           </div>
+
+          <div onClick={handleLoginButton} className="w-full bg-red-600 hover:bg-red-400 text-white font-bold py-2 rounded mb-3 hover:cursor-pointer"><span className="flex justify-center">Login</span></div>
+
+          <p className="text-center text-black font-bold">
+            New to Prothom Alo? <Link href="/signup" className="text-red-600 font-bold underline">Create an account</Link>
+          </p>
+
+          <p className="text-center text-gray-500 text-xs mt-6">
+            By proceeding, you agree to our <a href="#" className="text-blue-500">Terms of Use</a> and <a href="#" className="text-blue-500">Privacy Policy</a> of Prothom Alo
+          </p>
         </div>
-
-
-        <div className='mt-4'>
-          <h1 className='mb-1'>Password <span className='text-red-700 text-xl pt-1'> *</span></h1>
-          <div className={`flex items-center `}>
-
-            <input
-              style={{
-                borderRadius: "4px",
-                background: 'white',
-              }}
-              placeholder="Type your password"
-              className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black"
-              type="password"
-              name=""
-              id=""
-            />
-          </div>
-        </div>
-
-        <div className='my-4 flex justify-end'>
-          <button className={`btn border-0 btn-md w-[200px] normal-case ${CommunityComponentCSS.orderExtraItemButton}`}>Login</button>
-        </div>
-
-        <div className='flex justify-center'>
-          <p onClick={()=> router.push('/signup')}>New here? <span className='underline text-black hover:cursor-pointer'>Sign up</span></p>
-        </div>
-
       </div>
-    </div>
+      <ToastContainer></ToastContainer>
+    </section>
   );
 };
 
 export default LoginForm;
+
+
+
+// Don&rsquo;t have an account?

@@ -1,113 +1,115 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { handlePostDataToDatabase } from "@/server-calling/authentication";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import { FaChevronLeft } from "react-icons/fa6";
+import 'react-toastify/dist/ReactToastify.css';
+import homeLogo from '../../assets/Home_Logo.webp';
 
-import CommunityComponentCSS from '../../style/Home.module.css';
 
-const SignUpForm: React.FC = () => {
+const SignUpForm = () => {
   const router = useRouter();
+  // const [authError, setAuthError] = useState<string | null>(null);
 
-  const onFinish = (values: any) => {
-    values.preventDefault();
-    const userRegistrationData = {
-      "userName": "omukhasan123",
-      "name": {
-        "firstName": "Omuk",
-        "lastName": "Hasan"
-      },
-      "email": "omukhasan@gmail.com",
-      "PhoneNumber": "01978797987",
-      "password": "12345"
-    }
-    console.log(userRegistrationData, values);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [name, setName] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(null);
+  const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
+
+
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
-  const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([]);
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
+  const handleRegisterButton = async () => {
+    const formData = {
+      name: name,
+      email: email,
+      password: password
+    };
+    if (password === confirmPassword) {
+      const result = await handlePostDataToDatabase(formData);
+      toast.success(result?.message || 'Account created successfully!', {
+        autoClose: 2000,
+      });
+      if (result?.acknowledged === true) {
+        localStorage.setItem("user", JSON.stringify(formData));
+        router?.push('/');
+      }
+    }else{
+      toast.error('OPPS! Password is not matched.', {
+        autoClose: 2000,
+      });
+    }
+  };
+
+
+
   return (
-    <div style={{
-      borderRadius: "5px",
-      backgroundImage: "linear-gradient(to right top, rgb(139, 92, 246), rgb(253, 186, 116))",
-      backgroundSize: "100%",
-      backgroundRepeat: "repeat",
-    }} className='mt-[100px]'>
+    <section className="pb-16 pt-6">
 
-      <img className={`${CommunityComponentCSS.loginUserAvatar} block mx-auto mt-[-100px]`} src="https://i.ibb.co/vdbSRwB/8380015.png" alt="Image" />
+      <div className="flex items-center justify-center">
+        <div className="w-full max-w-lg bg-white border border-gray-300 rounded-sm px-12 py-6">
+          <button onClick={() => router?.back()} className="mb-4 flex items-center gap-x-1"><span><FaChevronLeft size={15} color={'black'}></FaChevronLeft></span> <span className="font-semibold hover:cursor-pointer">Back</span></button>
 
-      <div className='mb-6'>
-        <h2 className='text-2xl mb-2 lg:text-5xl md:text-3xl text-white flex justify-center'>Sign up Form</h2>
-        <p style={{ color: 'white' }} className='flex justify-center mx-2 md:mx-3 lg:mx-4'>
-          Welcome to SMTP! Please create your account. We do appreciate your your decision to be with us.</p>
 
-        <p style={{ color: 'white' }} className='flex justify-center mx-2 md:mx-3 lg:mx-4'>
-          We are glad to have you!</p>
+          <Link href={'/'} className="flex justify-center ">
+            <Image
+              src={homeLogo}
+              alt="Prothom Alo home icon"
+              width={800}
+              height={150}
+              className="rounded-md w-48 h-16 hover:cursor-pointer"
+            />
+          </Link>
+
+
+          <h2 className="text-2xl font-bold text-center text-blue-600 mb-1">Create an account</h2>
+          <p className="text-center text-black mb-6">to continue to <span className="font-bold">Pet Finder</span></p>
+
+
+          <input onChange={(e) => setName(e?.target?.value)} type="text" placeholder="Full name" className="w-full border border-gray-300 rounded py-2 px-3 mb-6 focus:outline-none" />
+
+          <input onChange={(e) => setEmail(e?.target?.value)} type="email" placeholder="Email" className="w-full border border-gray-300 rounded py-2 px-3 mb-6 focus:outline-none" />
+
+
+          <div className="relative mb-6">
+            <input onChange={(e) => setPassword(e?.target?.value)} type={`${showPassword ? 'text' : 'password'}`} placeholder="Password" className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none" />
+            <button onClick={togglePasswordVisibility} className="absolute inset-y-0 right-3 text-blue-500 font-medium">{showPassword ? 'Hide' : 'Show'}</button>
+          </div>
+
+          <div className="relative mb-6">
+            <input onChange={(e) => setConfirmPassword(e?.target?.value)} type={`${showConfirmPassword ? 'text' : 'password'}`} placeholder="Confirm Password" className="w-full border border-gray-300 rounded py-2 px-3 focus:outline-none" />
+            <button onClick={toggleConfirmPasswordVisibility} className="absolute inset-y-0 right-3 text-blue-500 font-medium">{showConfirmPassword ? 'Hide' : 'Show'}</button>
+          </div>
+
+          <button onClick={handleRegisterButton} className="w-full bg-red-600 hover:bg-red-400 text-white font-bold py-2 rounded mb-3">Register</button>
+
+
+          <p className="text-center text-black font-bold">
+            Already a member? <Link href="/" className="text-red-600 font-bold underline">Login</Link>
+          </p>
+
+
+          <p className="text-center text-gray-500 text-xs mt-6">
+            By proceeding, you agree to our <a href="#" className="text-blue-500">Terms of Use</a> and <a href="#" className="text-blue-500">Privacy Policy</a> of Prothom Alo
+          </p>
+        </div>
       </div>
-
-      <div className='p-1 sm:p-2 md:p-3 lg:p-4 xl:p-5'>
-      <div>
-          <h1 className='mb-1'>Full name<span className='text-red-700 text-xl pt-1'> *</span></h1>
-          <div className={`flex items-center`}>
-            <input
-              style={{
-                borderRadius: "4px",
-                background: 'white',
-              }}
-              placeholder="Type your full name"
-              className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black"
-              type="text"
-              name=""
-              id=""
-            />
-          </div>
-        </div>
-
-
-        <div className='my-4'>
-          <h1 className='mb-1'>Email Address<span className='text-red-700 text-xl pt-1'> *</span></h1>
-          <div className={`flex items-center`}>
-            <input
-              style={{
-                borderRadius: "4px",
-                background: 'white',
-              }}
-              placeholder="Type your email address"
-              className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black"
-              type="email"
-              name=""
-              id=""
-            />
-          </div>
-        </div>
-
-
-        <div className=''>
-          <h1 className='mb-1'>Password <span className='text-red-700 text-xl pt-1'> *</span></h1>
-          <div className={`flex items-center `}>
-
-            <input
-              style={{
-                borderRadius: "4px",
-                background: 'white',
-              }}
-              placeholder="Type your password"
-              className="w-full h-[45px] focus:outline-none border-0 pl-1 text-black"
-              type="password"
-              name=""
-              id=""
-            />
-          </div>
-        </div>
-
-        <div className='my-4 flex justify-end'>
-          <button className={`btn border-0 btn-md w-[200px] normal-case ${CommunityComponentCSS.orderExtraItemButton}`}>Sign up</button>
-        </div>
-
-        <div className='flex justify-center'>
-          <p onClick={()=> router.push('/')}>Already have an account? <span className='underline text-black hover:cursor-pointer'>Log in</span></p>
-        </div>
-
-      </div>
-    </div>
+      <ToastContainer></ToastContainer>
+    </section>
   );
 };
 
